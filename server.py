@@ -13,6 +13,8 @@ AWESOMENESS = [
     'oh-so-not-meh', 'brilliant', 'ducky', 'coolio', 'incredible',
     'wonderful', 'smashing', 'lovely']
 
+BADNESS = [
+    'Your face is weird', 'You code like a wombat', 'You are a slow ice cream eater']
 
 @app.route("/")
 def start_here():
@@ -45,9 +47,7 @@ def say_hello():
         <h1>Hi There!</h1>
         <form action="/greet">
           What's your name? <input type="text" name="person">
-          <input type="submit" value="Submit">
-        </form>
-        <form action="/greet">
+          
         Choose your compliment
         <select name ="compliment">
             <option value= "good">good</option> 
@@ -56,18 +56,30 @@ def say_hello():
             <option value= "{AWESOMENESS[3]}">{AWESOMENESS[3]}</option> 
             <option value= "{AWESOMENESS[4]}">{AWESOMENESS[4]}</option> 
             <option value= "{AWESOMENESS[5]}">{AWESOMENESS[5]}</option> 
-            </select></form>
+            <input type="submit" value="Submit">
+        </select></form>
+
+        <form action="/diss">
+        What's your name? <input type="text" name="person">
+
+        Oh actually we're not friends...choose a diss
+        <select name ="diss">
+            <option value= "{BADNESS[0]}">{BADNESS[0]}</option> 
+            <option value= "{BADNESS[1]}">{BADNESS[1]}</option> 
+            <option value= "{BADNESS[2]}">{BADNESS[2]}</option>
+            <input type="submit" value="Submit">
+        </select></form>
     </html>
     """
 
 
-@app.route("/greet", methods=["GET", "POST"])
+@app.route("/greet")
 def greet_person():
     """Get user by name."""
 
     player = request.args.get("person")
 
-    compliment = request.form.get("compliment")
+    compliment = request.args.get("compliment")
     # choice(AWESOMENESS)
 
     # y = x
@@ -85,6 +97,26 @@ def greet_person():
     """ 
 
     # .format(player, compliment)
+
+@app.route("/diss")
+def diss_person():
+  """Diss user by name."""
+
+  player = request.args.get("person")
+
+  mean_thing = request.args.get("diss")
+
+  return f"""
+  <!doctype html> 
+  <html>
+    <head>
+      <title>A Diss</title>
+    </head>
+    <body>
+      Hi, {player}! {mean_thing}!
+    </body>
+  </html>
+  """ 
 
 
 if __name__ == "__main__":
